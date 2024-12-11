@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="dh_robot">
+
+  <!-- Link 1 -->
+  <xacro:macro name="link_box" params="link_name color">
+    <link name="${link_name}">
+      <visual>
+        <geometry>
+          <box size="0.1 0.1 0.5"/>
+        </geometry>
+        <material name="${color}">
+          <color rgba="${color}"/>
+        </material>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.1 0.1 0.5"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1.0"/>
+        <inertia ixx="0.01" ixy="0.0" ixz="0.0" iyy="0.01" iyz="0.0" izz="0.01"/>
+      </inertial>
+    </link>
+  </xacro:macro>
+
+  <!-- Joint 1 -->
+  <xacro:macro name="prismatic_joint" params="joint_name parent_link child_link axis xyz rpy lower upper effort velocity">
+    <joint name="${joint_name}" type="prismatic">
+      <parent link="${parent_link}"/>
+      <child link="${child_link}"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <axis xyz="${axis}"/>
+      <limit lower="${lower}" upper="${upper}" effort="${effort}" velocity="${velocity}"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Joint 2 -->
+  <xacro:macro name="revolute_joint" params="joint_name parent_link child_link axis xyz rpy lower upper effort velocity">
+    <joint name="${joint_name}" type="revolute">
+      <parent link="${parent_link}"/>
+      <child link="${child_link}"/>
+      <origin xyz="${xyz}" rpy="${rpy}"/>
+      <axis xyz="${axis}"/>
+      <limit lower="${lower}" upper="${upper}" effort="${effort}" velocity="${velocity}"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- Define Links -->
+  <xacro:link_box link_name="link1" color="0 0 1 1"/>
+  <xacro:link_box link_name="link2" color="1 0 0 1"/>
+  <xacro:link_box link_name="link3" color="0 1 0 1"/>
+
+  <!-- Define Joints -->
+  <xacro:prismatic_joint joint_name="joint1" parent_link="world" child_link="link1"
+                          axis="0 0 1" xyz="0 0 0" rpy="0 0 0"
+                          lower="0.0" upper="1.0" effort="10.0" velocity="0.5"/>
+  <xacro:revolute_joint joint_name="joint2" parent_link="link1" child_link="link2"
+                        axis="0 0 1" xyz="0 0 0" rpy="0 -1.5708 0"
+                        lower="-1.57" upper="1.57" effort="10.0" velocity="1.0"/>
+  <xacro:prismatic_joint joint_name="joint3" parent_link="link2" child_link="link3"
+                          axis="0 0 1" xyz="0 0 0" rpy="0 0 0"
+                          lower="0.0" upper="1.0" effort="10.0" velocity="0.5"/>
+
+</robot>
