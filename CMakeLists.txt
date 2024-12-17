@@ -33,12 +33,25 @@ ament_target_dependencies(
    tf2_ros
 )
 
+add_executable(programme3 src/programme3.cpp)
+ament_target_dependencies(
+   programme3
+   geometry_msgs
+   rclcpp
+   tf2
+   tf2_ros
+)
+
 install(TARGETS
    programme1
    DESTINATION lib/${PROJECT_NAME})
 
 install(TARGETS
    programme2
+   DESTINATION lib/${PROJECT_NAME})
+
+install(TARGETS
+   programme3
    DESTINATION lib/${PROJECT_NAME})
 
 
